@@ -41,7 +41,7 @@ const PlayerScreen = () => {
         <LinearGradient
 			style={{ flex: 1 }}
 			colors={[getColor(imageColors.colorOne, colors.background),
-                getColor(imageColors.colorThree, colors.background2)]}
+                getColor(imageColors.colorThree, colors.background)]}
 		>
         <View style={styles.overlayContainer}>
 
