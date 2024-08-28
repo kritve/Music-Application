@@ -8,12 +8,6 @@
     "playlist": ["Chill 🌱"]
   },
   {
-    "url": "https://drive.google.com/file/d/1d2y-oBZ1vhb2MJn_9120A6TPfNamlmeH/view?usp=sharing",
-    "title": "Thank You Kiran Gowda",
-    "artist": "V",
-    "playlist": ["Chill 🌱"]
-  },
-  {
     "url": "https://audio.jukehost.co.uk/priWy2vYsWODmQiM6KevNYVLpPJGPZGd",
     "title": "Memories",
     "playlist": ["Instrumental 🎵"]
@@ -30,7 +24,7 @@
     "title": "As You Fade Away",
     "artist": "NEFFEX",
     "artwork": "https://i.ytimg.com/vi/JhUFfaArYk8/maxresdefault.jpg",
-    "rating": 1,
+    "favorite": 1,
     "playlist": ["Rap 🎤"]
   },
   {
