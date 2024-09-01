@@ -1,9 +1,7 @@
 import { playbackService } from '@/constants/playbackService';
-import { QueueInitialTracksService } from '@/constants/QueueInitialTracksService';
 import { SetupService } from '@/constants/SetupService';
 import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState';
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer';
-import { defaultStyles } from '@/styles';
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -14,6 +12,7 @@ import TrackPlayer, { useActiveTrack } from 'react-native-track-player';
 import * as SystemUI from 'expo-system-ui';
 import * as NavigationBar from 'expo-navigation-bar';
 import { colors } from '@/constants/tokens';
+//import { useLibraryStore, useTracks } from '@/store/library';
 
 SplashScreen.preventAutoHideAsync()
 

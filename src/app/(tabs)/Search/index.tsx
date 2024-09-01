@@ -3,7 +3,7 @@ import { colors, screenPadding } from "@/constants/tokens"
 import { useNavigationSearch } from "@/hooks/useNavigationSearch"
 import { defaultStyles, utilsStyles } from "@/styles"
 import { View, ScrollView, StyleSheet, TouchableHighlight, Text } from "react-native"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { artistNameFilter, playlistNameFilter, trackTitleFilter } from "@/helper/filter"
 import { useArtists, usePlaylists, useTracks } from "@/store/library"
 import { generateTracksListId } from "@/helper/miscellaneous"
@@ -26,8 +26,13 @@ const SearchScreen = () => {
         },
 
     })
+	const { tracks, loadAllTracks } = useTracks();
 
-    const tracks = useTracks()
+	useEffect(() => {
+	  loadAllTracks();
+	}, []);
+
+	//console.log(tracks)
     const artists = useArtists()
 
     const filteredSongs = useMemo(() => {

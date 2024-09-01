@@ -1,5 +1,4 @@
 import { FlatList, FlatListProps, Text, View } from "react-native"
-import library from '@/assets/data/library.json'
 import { TrackListItem } from "./TrackListItem"
 import { utilsStyles } from "@/styles"
 import TrackPlayer, { Track } from "react-native-track-player"
@@ -24,7 +23,9 @@ export const TracksList = ({ id, tracks, ...flatListProps}: TracksListProps) => 
         const trackIndex = tracks.findIndex((track) => track.url === selectedTrack.url)
         if (trackIndex === -1) return
 
-        const isChangingQueue = id !== activeQueueId
+   
+
+        const isChangingQueue = true //id !== activeQueueId
         if (isChangingQueue) {
             const afterTrack = tracks.slice(trackIndex+1)
 
