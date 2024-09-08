@@ -10,10 +10,10 @@ export const defaultStyles = StyleSheet.create({
 		fontSize: fontSize.base,
 		color: colors.text,
 	},
-	containerType2:{		
+	containerType2: {
 		flex: 1,
 		backgroundColor: colors.background,
-	}
+	},
 })
 
 const styles = StyleSheet.create({})

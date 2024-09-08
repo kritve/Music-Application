@@ -1,19 +1,15 @@
-import { create } from 'zustand';
-import * as MediaLibrary from 'expo-media-library';
-import * as FileSystem from 'expo-file-system';
-import { Platform } from 'react-native';
-import { unknownTrackImageUri } from '@/constants/images';
-import { Artist, Playlist, TrackWithPlaylist } from '@/helper/types';
-import { Track } from 'react-native-track-player';
 import library from '@/assets/data/library.json'
-import { Asset } from 'expo-asset';
-import { encode as encodeURI } from 'js-base64';
+import { unknownTrackImageUri } from '@/constants/images'
+import { Artist, Playlist, TrackWithPlaylist } from '@/helper/types'
+import * as MediaLibrary from 'expo-media-library'
+import { Track } from 'react-native-track-player'
+import { create } from 'zustand'
 
 interface LibraryState {
 	tracks: TrackWithPlaylist[]
 	toggleTrackFavorite: (track: Track) => void
 	addToPlaylist: (track: Track, playlistName: string) => void
-	loadAllTracks: () => Promise<void>;
+	loadAllTracks: () => Promise<void>
 }
 
 export const useLibraryStore = create<LibraryState>()((set) => ({
@@ -44,27 +40,27 @@ export const useLibraryStore = create<LibraryState>()((set) => ({
 				return currentTrack
 			}),
 		})),
-		loadAllTracks: async () => {
-			try {
-			  // Load tracks from library.json
-			  const libraryTracks: TrackWithPlaylist[] = library.map((track) => ({
+	loadAllTracks: async () => {
+		try {
+			// Load tracks from library.json
+			const libraryTracks: TrackWithPlaylist[] = library.map((track) => ({
 				...track,
-				id: track.url, // Use URL as ID for library tracks
-			  }));
-		
-			  // Load local tracks
-			  const { status } = await MediaLibrary.requestPermissionsAsync();
-			  if (status !== 'granted') {
-				console.warn('Permission to access media library was denied');
-				set({ tracks: libraryTracks });
-				return;
-			  }
-		
-			  const localMedias = await MediaLibrary.getAssetsAsync({
+				id: track.url,
+			}))
+
+			// Load local tracks
+			const { status } = await MediaLibrary.requestPermissionsAsync()
+			if (status !== 'granted') {
+				console.warn('Permission to access media library was denied')
+				set({ tracks: libraryTracks })
+				return
+			}
+
+			const localMedias = await MediaLibrary.getAssetsAsync({
 				mediaType: 'audio',
-			  });
-			  
-			  const localTracks: TrackWithPlaylist[] = localMedias.assets.map((asset) => ({
+			})
+
+			const localTracks: TrackWithPlaylist[] = localMedias.assets.map((asset) => ({
 				id: asset.id,
 				url: asset.uri,
 				title: asset.filename,
@@ -73,23 +69,21 @@ export const useLibraryStore = create<LibraryState>()((set) => ({
 				duration: asset.duration * 1000, // Convert to milliseconds
 				rating: 0,
 				playlist: [],
-			  }));
-		
-			  // Combine library tracks and local tracks
-			  set({ tracks: [...libraryTracks, ...localTracks] });
-			} catch (error) {
-			  console.error('Error loading tracks:', error);
-			}
-		  },
+			}))
+
+			// Combine library tracks and local tracks
+			set({ tracks: [...libraryTracks, ...localTracks] })
+		} catch (error) {
+			console.error('Error loading tracks:', error)
+		}
+	},
 }))
 
-
-
 export const useTracks = () => {
-	const tracks = useLibraryStore((state) => state.tracks);
-	const loadAllTracks = useLibraryStore((state) => state.loadAllTracks);
-	return { tracks, loadAllTracks };
-  };
+	const tracks = useLibraryStore((state) => state.tracks)
+	const loadAllTracks = useLibraryStore((state) => state.loadAllTracks)
+	return { tracks, loadAllTracks }
+}
 
 export const useFavorites = () => {
 	const favorites = useLibraryStore((state) => state.tracks.filter((track) => track.rating === 1))
