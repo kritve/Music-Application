@@ -1,5 +1,4 @@
 import { playbackService } from '@/constants/playbackService'
-import { colors } from '@/constants/tokens'
 import { useLogTrackPlayerState } from '@/hooks/useLogTrackPlayerState'
 import { useSetupTrackPlayer } from '@/hooks/useSetupTrackPlayer'
 import * as NavigationBar from 'expo-navigation-bar'
@@ -55,17 +54,16 @@ const RootNavigation = () => {
 			<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
 			<Stack.Screen
-				name="Player"
+				name="player"
 				options={{
 					headerShown: false,
 					presentation: 'card',
 					gestureEnabled: true,
-					//gestureDirection:'vertical',
+					gestureDirection: 'vertical',
 					animationDuration: 400,
 					animation: 'fade_from_bottom',
+
 					//cardStyle: { backgroundColor: 'black' },
-					headerStyle: { backgroundColor: '#000' },
-					headerBackground: () => colors.background,
 				}}
 			/>
 		</Stack>
