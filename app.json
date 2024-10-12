@@ -1,51 +1,69 @@
 {
-  "expo": {
-    "name": "Saaras",
-    "slug": "Saaras",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "dark",
-    "scheme": "Saaras",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "infoPlist": {
-        "UIBackgroundModes": [
-          "audio"
-        ]
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#000",
-        "permissions": ["READ_EXTERNAL_STORAGE", "READ_MEDIA_AUDIO"]
-      },
-      "package": "com.anonymous.Saaras"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-media-library",
-        {
-          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
-          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
-          "isAccessMediaLocationEnabled": true
-        }
-      ],
-      "expo-asset"
-    ],
-    "experiments": {
-      "typedroutes": true,
-      "tsconfig": true
-    }
-  }
+	"expo": {
+		"name": "Saaras",
+		"slug": "Saaras",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"userInterfaceStyle": "dark",
+		"scheme": "com.anonymous.saaras",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#000"
+		},
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.anonymous.saaras",
+			"infoPlist": {
+				"UIBackgroundModes": ["audio"],
+				"NSBluetoothAlwaysUsageDescription": "This app uses Bluetooth to connect to devices."
+			}
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#000",
+				"permissions": [
+					"BLUETOOTH",
+					"BLUETOOTH_ADMIN",
+					"ACCESS_FINE_LOCATION",
+					"READ_EXTERNAL_STORAGE",
+					"READ_MEDIA_AUDIO"
+				]
+			},
+			"package": "com.anonymous.saaras",
+			"intentFilters": [
+				{
+					"action": "VIEW",
+					"data": [
+						{
+							"scheme": "Saaras",
+							"host": "spotify-auth-callback"
+						}
+					],
+					"category": ["BROWSABLE", "DEFAULT"]
+				}
+			]
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		},
+		"plugins": [
+			"expo-router",
+			[
+				"expo-media-library",
+				{
+					"photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
+					"savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
+					"isAccessMediaLocationEnabled": true
+				}
+			],
+			"expo-asset"
+		],
+		"experiments": {
+			"typedroutes": true,
+			"tsconfig": true
+		}
+	}
 }

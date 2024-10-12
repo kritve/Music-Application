@@ -1,145 +1,147 @@
-import { MovingText } from "@/components/MovingText"
-import { unknownArtistImageUri } from "@/constants/images"
-import { colors, fontSize, screenPadding } from "@/constants/tokens"
-import { defaultStyles, utilsStyles } from "@/styles"
-import { ActivityIndicator, StyleSheet, View, Text } from "react-native"
-import FastImage from "react-native-fast-image"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { useActiveTrack } from "react-native-track-player"
+import { MovingText } from '@/components/MovingText'
+import { PlayerControls } from '@/components/PlayerControls'
+import { PlayerProgressBar } from '@/components/PlayerProgressBar'
+import { PlayerRepeatToggle } from '@/components/PlayerRepeatToggle'
+import { PlayerVolumeBar } from '@/components/PlayerVolumeBar'
+import { unknownArtistImageUri } from '@/constants/images'
+import { colors, screenPadding } from '@/constants/tokens'
+import { usePlayerBackground } from '@/hooks/usePlayerBackground'
+import { defaultStyles, utilsStyles } from '@/styles'
 import { FontAwesome } from '@expo/vector-icons'
-import { PlayerControls } from "@/components/PlayerControls"
-import { PlayerProgressBar } from "@/components/PlayerProgressBar"
-import { PlayerVolumeBar } from "@/components/PlayerVolumeBar"
-import { PlayerRepeatToggle } from "@/components/PlayerRepeatToggle"
-import { usePlayerBackground } from "@/hooks/usePlayerBackground"
-import { LinearGradient } from "expo-linear-gradient"
-
+import { LinearGradient } from 'expo-linear-gradient'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useActiveTrack } from 'react-native-track-player'
 
 const PlayerScreen = () => {
-    const activeTrack=useActiveTrack()
-    const {imageColors} = usePlayerBackground(activeTrack?.artwork ?? unknownArtistImageUri)
+	const activeTrack = useActiveTrack()
+	const { imageColors } = usePlayerBackground(activeTrack?.artwork ?? unknownArtistImageUri)
 
-    const {top,bottom} = useSafeAreaInsets()
+	const { top, bottom } = useSafeAreaInsets()
 
-    if(!activeTrack) {
-        return (
-            <View style={[defaultStyles.container, { justifyContent: 'center' }]}>
-            <ActivityIndicator color={colors.icon} />
-            </View>
-        )
-    }
+	if (!activeTrack) {
+		return (
+			<View style={[defaultStyles.container, { justifyContent: 'center' }]}>
+				<ActivityIndicator color={colors.icon} />
+			</View>
+		)
+	}
 
-    const getColor = (color: { value: string; name: string } | undefined, fallback: string) => 
-        color && typeof color.value === 'string' ? color.value : fallback
-    const isFavorite = false
-    const toggleFavorite = () => {}
-    console.log(imageColors.colorOne)
-    console.log(imageColors.colorTwo)
-    console.log(imageColors.colorThree)
-    console.log(imageColors.colorFour)
-    return (
-        <LinearGradient
+	const getColor = (color: { value: string; name: string } | undefined, fallback: string) =>
+		color && typeof color.value === 'string' ? color.value : fallback
+	const isFavorite = false
+	const toggleFavorite = () => {}
+	// console.log(imageColors.colorOne)
+	// console.log(imageColors.colorTwo)
+	// console.log(imageColors.colorThree)
+	// console.log(imageColors.colorFour)
+	return (
+		<LinearGradient
 			style={{ flex: 1 }}
-			colors={[getColor(imageColors.colorOne, colors.background),
-                getColor(imageColors.colorThree, colors.background2)]}
+			colors={[
+				getColor(imageColors.colorOne, colors.background),
+				getColor(imageColors.colorThree, colors.background2),
+			]}
 		>
-        <View style={styles.overlayContainer}>
+			<View style={styles.overlayContainer}>
+				<DismissPlayerSymbol />
 
-            <DismissPlayerSymbol />
+				<View style={{ flex: 1, marginTop: top, marginBottom: bottom }}>
+					<View style={styles.artworkImageContainer}>
+						<FastImage
+							source={{
+								uri: activeTrack.artwork ?? unknownArtistImageUri,
+								priority: FastImage.priority.high,
+							}}
+							resizeMode="cover"
+							style={styles.artworkImage}
+						/>
+					</View>
 
-            <View style={{flex:1, marginTop: top, marginBottom: bottom}}>
-                <View style={styles.artworkImageContainer}>
-                <FastImage source={{
-                    uri: activeTrack.artwork ?? unknownArtistImageUri,
-                    priority: FastImage.priority.high
-                }}
-                resizeMode='cover'
-                style={styles.artworkImage}
-                />
-                </View>
+					<View style={{ flex: 1 }}>
+						<View style={{ marginTop: 'auto' }}>
+							<View style={{ height: 60 }}>
+								<View
+									style={{
+										flexDirection: 'row',
+										justifyContent: 'space-between',
+										alignContent: 'center',
+									}}
+								>
+									<View style={styles.trackTitleContainer}>
+										<MovingText
+											text={activeTrack.title ?? ''}
+											animationThreshold={30}
+											style={styles.trackTitleText}
+										/>
+									</View>
+									<FontAwesome
+										name={isFavorite ? 'heart' : 'heart-o'}
+										size={20}
+										color={isFavorite ? colors.primary : colors.icon}
+										style={{ marginHorizontal: 14 }}
+										onPress={toggleFavorite}
+									/>
+								</View>
 
-                <View style={{flex:1}}>
-                    <View style={{marginTop:'auto'}}>
-                        <View style={{height: 60}}>
-                            <View style={{
-                                flexDirection:'row',
-                                justifyContent:'space-between',
-                                alignContent:'center'}}>
-                                    <View style={styles.trackTitleContainer}>
-                                        <MovingText text={activeTrack.title ?? ''}
-                                                    animationThreshold={30}
-                                                    style={styles.trackTitleText}
-                                                    />
-                                    </View>
-                                    <FontAwesome name={isFavorite ? 'heart' : 'heart-o'}
-                                    size={20}
-                                    color={isFavorite ? colors.primary : colors.icon} 
-                                    style={{marginHorizontal:14}}
-                                    onPress={toggleFavorite}
-                                    />
-                            </View>
+								{activeTrack.artist && (
+									<Text numberOfLines={1} style={[styles.trackArtistText, { marginTop: 1 }]}>
+										{activeTrack.artist}
+									</Text>
+								)}
+							</View>
 
-                                {activeTrack.artist && (
-                                    <Text numberOfLines={1} style={[styles.trackArtistText, {marginTop:1}]}>
-                                        {activeTrack.artist}
-                                    </Text>
-                                )}
-                        </View>
+							<PlayerProgressBar style={{ marginTop: 32 }} />
 
-                        <PlayerProgressBar style={{marginTop:32}} />
+							<PlayerControls style={{ marginTop: 40 }} />
+						</View>
+						<View style={utilsStyles.centeredRow}>
+							<PlayerRepeatToggle
+								size={30}
+								style={{ marginBottom: 0, marginTop: 25, marginRight: 8 }}
+							/>
+						</View>
 
-                        <PlayerControls style={{marginTop:40}} />
-
-                    </View>
-                    <View style={utilsStyles.centeredRow}>
-                        <PlayerRepeatToggle size={30} style={{marginBottom:0, marginTop:25, marginRight:8}} />
-                    </View>
-                  
-                    {/* PlayerVolumeBar can be implented as a haptic amplitude effect controller  */}
-                    <PlayerVolumeBar style={{marginTop:'auto', marginBottom:30}} />
-                    {/* <View style={utilsStyles.centeredRow}>
+						{/* PlayerVolumeBar can be implented as a haptic amplitude effect controller  */}
+						<PlayerVolumeBar style={{ marginTop: 'auto', marginBottom: 30 }} />
+						{/* <View style={utilsStyles.centeredRow}>
                         <PlayerRepeatToggle size={30} style={{marginBottom:6}} />
                     </View> */}
-
-                </View>
-
-            </View>
-
-
-
-
-        </View>
-        </LinearGradient>
-    )
+					</View>
+				</View>
+			</View>
+		</LinearGradient>
+	)
 }
 
 const DismissPlayerSymbol = () => {
-    const {top} = useSafeAreaInsets()
+	const { top } = useSafeAreaInsets()
 
-    return <View style={{
-        position:'absolute',
-        top: top+8,
-        left:0,
-        right:0,
-        flexDirection:'row',
-        justifyContent:'center'
-    }}> 
-
-        <View 
-            accessible={false}
-            style={{
-                width: 50,
-                height: 8,
-                borderRadius: 8,
-                backgroundColor: '#fff',
-                opacity: 0.7,
-            }}
+	return (
+		<View
+			style={{
+				position: 'absolute',
+				top: top + 8,
+				left: 0,
+				right: 0,
+				flexDirection: 'row',
+				justifyContent: 'center',
+			}}
+		>
+			<View
+				accessible={false}
+				style={{
+					width: 50,
+					height: 8,
+					borderRadius: 8,
+					backgroundColor: '#fff',
+					opacity: 0.7,
+				}}
 			/>
-
-    </View>
-
+		</View>
+	)
 }
-
 
 const styles = StyleSheet.create({
 	overlayContainer: {
@@ -178,8 +180,7 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		opacity: 0.8,
 		maxWidth: '90%',
-	}
+	},
 })
-
 
 export default PlayerScreen

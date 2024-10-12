@@ -27,7 +27,6 @@ export const ArtistTracksList = ({ artist }: { artist: Artist }) => {
 		<TracksList
 			id={generateTracksListId(artist.name, search)}
 			scrollEnabled={false}
-			//hideQueueControls={true}
 			ListHeaderComponentStyle={styles.artistHeaderContainer}
 			ListHeaderComponent={
 				<View>

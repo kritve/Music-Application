@@ -1,14 +1,14 @@
-import { unknownTrackImageUri } from "@/constants/images"
-import { defaultStyles } from "@/styles"
-import { StyleSheet, TouchableOpacity, View, Text, ViewProps, ViewStyle } from "react-native"
-import FastImage from "react-native-fast-image"
-import { Track, useActiveTrack } from "react-native-track-player"
-import { PlayPauseButton, SkipToNextButton } from "./PlayerControls"
-import { useRouter } from "expo-router"
-import { useLastActiveTrack } from "@/hooks/useLastActiveTrack"
-import { MovingText } from "./MovingText"
+import { unknownTrackImageUri } from '@/constants/images'
+import { useLastActiveTrack } from '@/hooks/useLastActiveTrack'
+import { defaultStyles } from '@/styles'
+import { useRouter } from 'expo-router'
+import { StyleSheet, TouchableOpacity, View, ViewProps } from 'react-native'
+import FastImage from 'react-native-fast-image'
+import { useActiveTrack } from 'react-native-track-player'
+import { MovingText } from './MovingText'
+import { PlayPauseButton, SkipToNextButton } from './PlayerControls'
 
-export const FloatingPlayer =  ({ style }: ViewProps) => {
+export const FloatingPlayer = ({ style }: ViewProps) => {
 	const router = useRouter()
 	const activeTrack = useActiveTrack()
 	const lastActiveTrack = useLastActiveTrack()
@@ -19,30 +19,33 @@ export const FloatingPlayer =  ({ style }: ViewProps) => {
 		router.navigate('/player')
 	}
 
-    if(!displayedTrack) return null
- 
-    return (<TouchableOpacity onPress={handlePress} activeOpacity={0.9} style={[styles.container, style]}>
-        <>
-            <FastImage source={{
-                uri: displayedTrack.artwork ?? unknownTrackImageUri
-            }}
-            style={styles.trackArtworkImage}
-            />
+	if (!displayedTrack) return null
 
-            <View style={styles.trackTitleContainer}>
-                <MovingText style={styles.trackTitle} 
-				 animationThreshold={25}
-				 text={displayedTrack.title ?? ''}
-				/>								
-            </View>
-            
-            <View style={styles.trackControlsContainer}>
-                <PlayPauseButton iconSize={24} />
-                <SkipToNextButton iconSize={24} />
-            </View>
+	return (
+		<TouchableOpacity onPress={handlePress} activeOpacity={0.9} style={[styles.container, style]}>
+			<>
+				<FastImage
+					source={{
+						uri: displayedTrack.artwork ?? unknownTrackImageUri,
+					}}
+					style={styles.trackArtworkImage}
+				/>
 
-        </>
-    </TouchableOpacity>)
+				<View style={styles.trackTitleContainer}>
+					<MovingText
+						style={styles.trackTitle}
+						animationThreshold={25}
+						text={displayedTrack.title ?? ''}
+					/>
+				</View>
+
+				<View style={styles.trackControlsContainer}>
+					<PlayPauseButton iconSize={24} />
+					<SkipToNextButton iconSize={24} />
+				</View>
+			</>
+		</TouchableOpacity>
+	)
 }
 
 const styles = StyleSheet.create({
@@ -53,12 +56,11 @@ const styles = StyleSheet.create({
 		padding: 8,
 		borderRadius: 12,
 		paddingVertical: 10,
-        //justifyContent: 'center'
-        position:'absolute',
-        left:8,
-        right:8,
-        bottom: 50,
-        
+
+		position: 'absolute',
+		left: 8,
+		right: 8,
+		bottom: 50,
 	},
 	trackArtworkImage: {
 		width: 40,

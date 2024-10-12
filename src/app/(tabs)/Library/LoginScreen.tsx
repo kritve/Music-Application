@@ -1,4 +1,3 @@
-import { colors } from '@/constants/tokens'
 import { useStore } from '@/store/spotify'
 import { SpotifyApiResponse } from '@/types/types'
 import axios from 'axios'
@@ -19,7 +18,7 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 	const [request, response, promptAsync] = useAuthRequest(
 		{
 			responseType: ResponseType.Token,
-			clientId: '5bc4977073094b46be28e7e04b621472',
+			clientId: '',
 			scopes: [
 				'user-read-currently-playing',
 				'user-read-recently-played',
@@ -79,14 +78,13 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 					fontSize: 30,
 					fontWeight: 'bold',
 					color: 'white',
-					marginBottom: '10%',
-					textAlign: 'center',
+					marginBottom: '20%',
 				}}
 			>
-				Connect to your Spotify account
+				v{' '}
 			</Text>
 			<Button
-				title="Login"
+				title="Login with Spotify"
 				containerStyle={styles.button}
 				onPress={() => {
 					promptAsync()
@@ -105,12 +103,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: 'black',
-		textAlign: 'center',
 	},
 	button: {
 		width: 200,
 		marginTop: 50,
-		color: colors.primary,
-		backgroundColor: colors.primary,
 	},
 })
