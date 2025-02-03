@@ -1,4 +1,3 @@
-# Saaras
 
 ## Goals for the app
 - [ ]  It should serve as a fully functional music player
